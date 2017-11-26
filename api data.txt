@@ -1,0 +1,4 @@
+Account: 2511.USD.CHQ.305684
+Email: contact@mmilmedialimited.com
+API Shared Secret: 1534b76d325a8f591b52d302e7181331
+https://www.paxum.com/payment-docs/page.php?name=apiIntroduction
