@@ -18,26 +18,29 @@ class PaxumPayment
 	 * the username of the client account
 	 * @var string
 	 */
-	private $fromEmail = config('paxum.paxum_email');
+	private $fromEmail = null;
 
 	/**
 	 * the encrypted password of the client account MD5(password)
 	 * @var string
 	 */
-	private $encryptedPassword = config('paxum.paxum_shared_secret');
+	private $encryptedPassword = null;
 
 	/**
 	 * the account ID is number from merchent panel related to his currency
 	 * @var string
 	 */
-	private $accountId = config('paxum.paxum_account_id');
+	private $accountId = null;
 
 
 	/**
-	 * The PaxumPayment constructor.
+	 * The PaxumPayment constructor
 	 */
 	public function __construct()
 	{
+		$this->fromEmail = config('paxum.paxum_email');
+		$this->encryptedPassword = config('paxum.paxum_shared_secret');
+		$this->accountId = config('paxum.paxum_account_id');
 	}
 
 	public function login()
