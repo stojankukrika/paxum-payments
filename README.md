@@ -19,6 +19,20 @@ If you are using Laravel in a version < 5.5, the service provider must be regist
    stojankukrika\PaxumPayment\PaxumPaymentServiceProvider
 ];
 ```
+and add in aliases
+```php
+// config/app.php
+'aliases' => [
+    ...
+   'Paxum' => \stojankukrika\PaxumPayment\Facades\PaxumPayment::class
+];
+```
+After that run migration to make payment table to log payments
+
+```bash
+$ php artisan migrate
+```
+
 #### Configuration
 ```bash
 $ php artisan vendor:publish --provider=stojankukrika\PaxumPayment\PaxumPaymentServiceProvider

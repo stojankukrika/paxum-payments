@@ -24,7 +24,7 @@ class PaxumPaymentServiceProvider extends ServiceProvider
             __DIR__ . '/config/paxum.php' => config_path('paxum.php')
         ]);
 
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations/');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
     }
 
 
