@@ -27,20 +27,12 @@ class PaxumPayment
 	private $encryptedPassword = null;
 
 	/**
-	 * the account ID is number from merchent panel related to his currency
-	 * @var string
-	 */
-	private $accountId = null;
-
-
-	/**
 	 * The PaxumPayment constructor
 	 */
 	public function __construct()
 	{
 		$this->fromEmail = config('paxum.paxum_email');
 		$this->encryptedPassword = config('paxum.paxum_shared_secret');
-		$this->accountId = config('paxum.paxum_account_id');
 	}
 
 	public function login()
@@ -67,9 +59,8 @@ class PaxumPayment
         echo $res;
 	}
 
-	public function balanceInquiry()
+	public function balanceInquiry($accountId = null)
 	{
-        $accountId = $this->accountId;
 		$key = md5(sprintf("%s%s", $this->encryptedPassword, $accountId));
 
 		// Prepare the request
@@ -587,9 +578,8 @@ class PaxumPayment
 
 	}
 
-	public function transactionHistory($fromDate, $toDate, $pageSize = NULL, $pageNumber = NULL)
+	public function transactionHistory($fromDate, $accountId, $toDate, $pageSize = NULL, $pageNumber = NULL)
 	{
-        $accountId = $this->accountId;
 		$key = md5(sprintf("%s%s%s%s%s%s",
 			$this->encryptedPassword,
 			($accountId != NULL) ? $accountId : "",
