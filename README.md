@@ -6,7 +6,7 @@ Installation
 You can install the package via composer:
 
 ```bash
-composer require // add code here
+composer require stojankukrika/paxum-payment
 ```
 
 If you are using Laravel in a version < 5.5, the service provider must be registered as a next step:
@@ -15,9 +15,15 @@ If you are using Laravel in a version < 5.5, the service provider must be regist
 // config/app.php
 'providers' => [
     ...
-    // add code here
+   stojankukrika\PaxumPayment\PaxumPaymentServiceProvider
 ];
 ```
+#### Configuration
+```bash
+$ php artisan vendor:publish --provider=stojankukrika\PaxumPayment\PaxumPaymentServiceProvider
+```
+Add in your .ev file variables PAXUM_ACCOUNT_ID, PAXUM_EMAIL, PAXUM_SHARED_SECRRET set it values from pacum.com and publish this provider using:
+
 
 Usage
 ---
@@ -35,11 +41,6 @@ To run tests use
 
 Contributing
 ---
-
-
-Security
----
-If you discover any security related issues, please email <your@mail.tld> or use the issue tracker of GitHub.
 
 About
 ---
