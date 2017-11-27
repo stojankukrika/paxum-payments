@@ -38,4 +38,15 @@ class PaxumPaymentServiceProvider extends ServiceProvider
             __DIR__ . '/../../config/paxum.php', 'paxum'
         );
     }
+
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return array ('paxum');
+    }
 }
