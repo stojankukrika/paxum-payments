@@ -3,7 +3,7 @@
 namespace stojankukrika\PaxumPayment;
 
 /**
- * The PaymentApiClient class.
+ * The PaxumPayment class.
  *
  * @package  payment.api
  * @since    Payment 1.0
@@ -11,20 +11,26 @@ namespace stojankukrika\PaxumPayment;
  * @category Payment
  */
 
-class PaymentApiClient
+class PaxumPayment
 {
 
 	/**
 	 * the username of the client account
 	 * @var string
 	 */
-	private $fromEmail = null;
+	private $fromEmail = config('paxum.paxum_email');
 
 	/**
 	 * the encrypted password of the client account MD5(password)
 	 * @var string
 	 */
-	private $encryptedPassword = null;
+	private $encryptedPassword = config('paxum.paxum_shared_secret');
+
+	/**
+	 * the account ID is number from merchent panel related to his currency
+	 * @var string
+	 */
+	private $accountId = config('paxum.paxum_account_id');
 
 
 	/**
@@ -33,10 +39,11 @@ class PaymentApiClient
 	 * @param string $fromEmail the username of the client account
 	 * @param string $encryptedPassword the encrypted password of the client account MD5(password)
 	 */
-	public function __construct($fromEmail, $encryptedPassword)
+	public function __construct($fromEmail, $encryptedPassword, $accountId)
 	{
 		$this->fromEmail = $fromEmail;
 		$this->encryptedPassword = $encryptedPassword;
+		$this->accountId = $accountId;
 	}
 
 	public function login()
@@ -59,12 +66,13 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		//echo $res;
-		printf("<textarea cols=\"400\" rows=\"100\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"400\" rows=\"100\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
-	public function balanceInquiry($accountId = null)
+	public function balanceInquiry()
 	{
+        $accountId = $this->accountId;
 		$key = md5(sprintf("%s%s", $this->encryptedPassword, $accountId));
 
 		// Prepare the request
@@ -81,7 +89,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 
 	}
 
@@ -103,7 +112,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function bankAccountInquiry($bankAccountId = null)
@@ -124,7 +134,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function addressInquiry($addressId = null)
@@ -145,7 +156,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function identityVerificationInquiry($identityVerificationId = null, $pageSize = null, $pageNumber = null)
@@ -172,7 +184,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function currencyInquiry($status = null)
@@ -192,7 +205,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function emailInquiry()
@@ -212,7 +226,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function newsInquiry()
@@ -231,7 +246,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function addFundsFromCard($fromCard, $toAccountId, $amount, $currency, $cardVerificationNumber)
@@ -263,7 +279,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function addFundsFromBankAccount($bankAccountId, $toAccountId, $amount, $currency, $transferType)
@@ -295,7 +312,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function transferFundsBetweenAccounts($fromAccount, $toAccount, $amount, $currency, $subscriptionFrequency = null, $subscriptionEndDate = null, $subscriptionUserCancel = null, $subscriptionTransactions  = null)
@@ -333,7 +351,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function transferFunds($toEmail, $amount, $currency, $note = null, $firstName = null, $lastName = null, $businessName = null,
@@ -386,7 +405,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function massTransferFunds($data, $fromAccountId = null)
@@ -408,7 +428,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function withdrawFundsToCard($fromAccount, $toCard, $amount, $currency)
@@ -439,7 +460,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function withdrawFundsToBankAccount($fromAccount, $toBankAccount, $amount, $currency, $transferType)
@@ -471,7 +493,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function refundTransaction($transId)
@@ -492,7 +515,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function requestMoney($toEmail, $amount, $currency, $toAccount = null, $transactionCategory = null)
@@ -517,7 +541,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function subscriptionList($pageSize = null, $pageNumber = null)
@@ -538,7 +563,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function cancelSubscription($subscriptionId)
@@ -559,12 +585,14 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 
 	}
 
-	public function transactionHistory($accountId, $fromDate, $toDate, $pageSize = NULL, $pageNumber = NULL)
+	public function transactionHistory($fromDate, $toDate, $pageSize = NULL, $pageNumber = NULL)
 	{
+        $accountId = $this->accountId;
 		$key = md5(sprintf("%s%s%s%s%s%s",
 			$this->encryptedPassword,
 			($accountId != NULL) ? $accountId : "",
@@ -599,7 +627,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function identityVerification($toEmail, $firstName = null, $lastName = null, $gender = null, $address = null, $city = null, $state = null, $country = null, $postalCode = null, $birthday = null, $phone = null, $idType = null, $idNumber = null, $businessName = null)
@@ -650,7 +679,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function addCard($cardName, $cardType, $cardNumber, $cardExpiration, $currency, $type, $phone, $idNumber, $idExpiration, $addressId)
@@ -691,7 +721,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function setPrimaryCard($cardId)
@@ -712,7 +743,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function deleteCard($cardId)
@@ -733,7 +765,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function verifyCardRequest($fromCard, $cardVerificationNumber)
@@ -759,7 +792,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function verifyCardConfirmation($fromCard, $amount)
@@ -785,7 +819,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
  	public function addBankAccount(
@@ -842,7 +877,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function setPrimaryBankAccount($bankAccountId)
@@ -863,7 +899,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function deleteBankAccount($bankAccountId)
@@ -884,7 +921,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function addAddress($streetName, $streetNumber, $building, $entrance, $floor, $apartment, $district, $postalCode, $city, $state, $country, $addressStatus)
@@ -920,7 +958,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function deleteAddress($addressId)
@@ -941,7 +980,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function createAccount($operatorCode, $username,	$firstName, $lastName, $language,  $idn, $citizenship, $residenceCountry, $birthday, $ocupation,
@@ -1004,7 +1044,8 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
 	}
 
 	public function uploadDocument($type, $file, $fileType, $toEmail, $issuingCountry, $issuingState, $issuingAuthority, $issuedDate, $expiryDate, $series, $number, $addressId = null)
@@ -1037,7 +1078,7 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		//printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
 		echo $res;
 	}
 
@@ -1064,7 +1105,7 @@ class PaymentApiClient
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
-		//printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
 		echo $res;
 	}
 	/**
