@@ -1,6 +1,6 @@
 <?php
 
-namespace Vendor\PaxumPayment;
+namespace stojankukrika\PaxumPayment;
 
 use Illuminate\Support\ServiceProvider;
 

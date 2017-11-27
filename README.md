@@ -25,6 +25,13 @@ $ php artisan vendor:publish --provider=stojankukrika\PaxumPayment\PaxumPaymentS
 ```
 Add in your .ev file variables PAXUM_ACCOUNT_ID, PAXUM_EMAIL, PAXUM_SHARED_SECRRET set it values from pacum.com and publish this provider using:
 
+#### Important note
+Before testing Payment API Code Sample do not forget to do the following from Merchant Services >> API Settings:
+ - Enable API
+ - Enable API methods you want to use
+ - Add your IP address to "Allowed IPs" list
+ - "Generate New Shared Secret", if you didn't already received it by email during API activation
+
 
 Usage
 ---
@@ -34,17 +41,6 @@ Changelog
 ---
 Check [CHANGELOG](CHANGELOG.md) for the changelog
 
-Testing
----
-To run tests use
-
-    $ composer test
-
-Contributing
----
-
-About
----
 
 License
 ---
