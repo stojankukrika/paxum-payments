@@ -37,7 +37,7 @@ $ php artisan migrate
 ```bash
 $ php artisan vendor:publish --provider=stojankukrika\PaxumPayment\PaxumPaymentServiceProvider
 ```
-Add in your .ev file variables PAXUM_ACCOUNT_ID, PAXUM_EMAIL, PAXUM_SHARED_SECRRET set it values from pacum.com and publish this provider using:
+Add in your .ev file variables PAXUM_ACCOUNT_ID, PAXUM_EMAIL, PAXUM_SHARED_SECRET set it values from pacum.com and publish this provider using:
 
 #### Important note
 Before testing Payment API Code Sample do not forget to do the following from Merchant Services >> API Settings:

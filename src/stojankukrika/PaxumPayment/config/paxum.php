@@ -29,5 +29,5 @@ return [
     | It will work if default value in laravel setting is not set, and this value is set to true
 	|
 	*/
-    'paxum_shared_secret'   => getenv('PAXUM_SHARED_SECRRET', null)
+    'paxum_shared_secret'   => getenv('PAXUM_SHARED_SECRET', null)
 ];
