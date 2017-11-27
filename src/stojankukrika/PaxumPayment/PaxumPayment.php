@@ -34,16 +34,10 @@ class PaxumPayment
 
 
 	/**
-	 * The PaymentApiClient constructor.
-	 *
-	 * @param string $fromEmail the username of the client account
-	 * @param string $encryptedPassword the encrypted password of the client account MD5(password)
+	 * The PaxumPayment constructor.
 	 */
-	public function __construct($fromEmail, $encryptedPassword, $accountId)
+	public function __construct()
 	{
-		$this->fromEmail = $fromEmail;
-		$this->encryptedPassword = $encryptedPassword;
-		$this->accountId = $accountId;
 	}
 
 	public function login()
