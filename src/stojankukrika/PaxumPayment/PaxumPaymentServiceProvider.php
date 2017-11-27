@@ -21,10 +21,9 @@ class PaxumPaymentServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/config/paxum.php' => config_path('paxum.php')
+            __DIR__ . '/../../config/paxum.php' => config_path('paxum.php')
         ]);
-
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
+        $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
     }
 
 
@@ -36,7 +35,7 @@ class PaxumPaymentServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/config/paxum.php', 'paxum'
+            __DIR__ . '/../../config/paxum.php', 'paxum'
         );
     }
 }

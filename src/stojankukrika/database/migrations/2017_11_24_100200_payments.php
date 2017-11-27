@@ -14,9 +14,9 @@ class Payments extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->increments('id');
-            $table->decimal('amount' , 10,2);
-            $table->string('email');
-            $table->string('currency');
+            $table->decimal('amount' , 10,2)->nullable()->default(null);
+            $table->string('email')->nullable()->default(null);;
+            $table->string('currency')->nullable()->default(null);;
             $table->string('method');
             $table->string('response_code');
             $table->string('response_description')->nullable()->default(null);

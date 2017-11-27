@@ -17,16 +17,5 @@
     "psr-4": {
       "stojankukrika\\PaxumPayment\\": "src"
     }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "stojankukrika\\PaxumPayment\\PaxumPaymentServiceProvider"
-      ]
-    }
-  },
-  "scripts": {
-    "test": "vendor/bin/phpunit",
-    "test:windows": "vendor\\bin\\phpunit"
   }
 }
