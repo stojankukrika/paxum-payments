@@ -1,4 +1,6 @@
-<?php namespace stojankukrika\PaxumPayment\Facades;
+<?php
+
+namespace stojankukrika\PaxumPayment\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

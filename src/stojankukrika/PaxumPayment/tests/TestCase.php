@@ -1,6 +1,6 @@
 <?php
 
-namespace Vendor\PaxumPayment\Test;
+namespace stojankukrika\PaxumPayment\Test;
 
 use Vendor\PaxumPayment\PaxumPaymentServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;

@@ -20,13 +20,13 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Vendor\\PaxumPayment\\Test\\": "tests"
+      "stojankukrika\\PaxumPayment\\Test\\": "tests"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Vendor\\PaxumPayment\\PaxumPaymentServiceProvider"
+        "stojankukrika\\PaxumPayment\\PaxumPaymentServiceProvider"
       ]
     }
   },
