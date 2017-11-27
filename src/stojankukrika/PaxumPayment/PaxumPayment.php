@@ -27,12 +27,19 @@ class PaxumPayment
 	private $encryptedPassword = null;
 
 	/**
+	 * sandbox is used for test transactions
+	 * @var string
+	 */
+	private $sandbox = false;
+
+	/**
 	 * The PaxumPayment constructor
 	 */
 	public function __construct()
 	{
 		$this->fromEmail = config('paxum.paxum_email');
 		$this->encryptedPassword = config('paxum.paxum_shared_secret');
+		$this->sandbox = config('paxum.sandbox');
 	}
 
 	public function login()
@@ -49,9 +56,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
-
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
@@ -71,8 +79,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -94,9 +104,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
-
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
@@ -116,8 +127,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -138,8 +151,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -166,9 +181,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
-
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
@@ -187,8 +203,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -208,8 +226,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -228,8 +248,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -261,8 +283,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -294,8 +318,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -333,8 +359,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -387,8 +415,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -410,8 +440,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -442,8 +474,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -475,8 +509,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -497,9 +533,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
-
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
@@ -523,8 +560,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -545,8 +584,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		//the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -567,8 +608,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -608,8 +651,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -660,8 +705,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -702,8 +749,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -724,8 +773,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -746,8 +797,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -773,8 +826,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -800,8 +855,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -858,8 +915,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -880,8 +939,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -902,8 +963,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -939,8 +1002,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -961,8 +1026,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
@@ -1023,10 +1090,10 @@ class PaxumPayment
 		$req .= sprintf("&key=%s", urlencode($key));
 
 		// the following two lines are for testing only (in production they should be commented out)
-		//$req .= sprintf("&sandbox=ON");
-		//$req .= sprintf("&return=%s", urlencode("51"));
-
-
+        if($this->sandbox) {
+            $req .= sprintf("&sandbox=ON");
+            $req .= sprintf("&return=%s", urlencode("51"));
+        }
 
 		$res = $this->process($req);
 
