@@ -3,8 +3,11 @@
 namespace stojankukrika\PaxumPayment;
 
 use Carbon\Carbon;
+use DOMDocument;
 use GuzzleHttp\Client;
 use DB;
+use SimpleXMLElement;
+use stojankukrika\PaxumPayment\Exception\PaxumPaymentException;
 
 /**
  * The PaxumPayment class.
@@ -1698,11 +1701,15 @@ class PaxumPayment
 //        return $res;
 //
 //
-        $request = new Client();
-        parse_str($req, $arr);
+        $client = new Client();
+        parse_str($req, $data);
 
-        $response = $request->post('https://www.paxum.com/payment/api/paymentAPI.php', $arr);
-        return $response;
+        $response = $client->post($this->apiURL, null, $data);
+        if ($response->getStatusCode() == 200) {
+            return $response->getBody()->getContents();
+        } else {
+            throw new PaxumPaymentException($response->getReasonPhrase(), $response->getStatusCode());
+        }
     }
 }
 
