@@ -34,6 +34,12 @@ class PaxumPayment
      * @var string
      */
     private $sandbox = false;
+    /**
+     * Paxum API URL
+     *
+     * @var string
+     */
+    protected $apiURL = 'https://www.paxum.com/payment/api/paymentAPI.php';
 
     /**
      * The PaxumPayment constructor
@@ -1646,9 +1652,57 @@ class PaxumPayment
      */
     protected function process($req)
     {
+//        $header  = "POST /payment/api/paymentAPI.php HTTP/1.0\r\n";
+//        $header .= "Host: www.prioripay.com\r\n";
+//        $header .= "Accept: */*\r\n";
+//        $header .= "User-Agent: php-agent/1.0\r\n";
+//        $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
+//        $header .= "Connection: close\r\n";
+//        $header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
+//
+//        // Make the request to the server
+//        // If possible, securely post using HTTPS, your PHP server will need to be SSL enabled
+//        $fp = fsockopen ("ssl://www.prioripay.com", 443, $errno, $errstr, 30);
+//
+//        if (!$fp)
+//        {
+//            // HTTP ERROR
+//            return -1;
+//        }
+//
+//        //echo $req;exit;
+//
+//        fputs ($fp, sprintf("%s%s", $header, $req));
+//
+//        // Read the server response
+//
+//        $res = "";
+//        $headerdone = false;
+//        while (!feof($fp))
+//        {
+//            $line = fgets ($fp, 1024);
+//            if (strcmp($line, "\r\n") == 0)
+//            {
+//                // read the header
+//                $headerdone = true;
+//            }
+//            else if ($headerdone)
+//            {
+//                // header has been read. now read the contents
+//                $res .= $line;
+//            }
+//        }
+//
+//        fclose ($fp);
+//
+//        return $res;
+//
+//
         $request = new Client();
-        $request->post('https://www.paxum.com/payment/api/paymentAPI.php', $req);
-        $response = $request->send();
+        parse_str($req, $arr);
+
+        $response = $request->post('https://www.paxum.com/payment/api/paymentAPI.php', $arr);
+        //$response = $request->send();
         return $response;
     }
 }
