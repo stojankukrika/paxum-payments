@@ -1702,7 +1702,6 @@ class PaxumPayment
         parse_str($req, $arr);
 
         $response = $request->post('https://www.paxum.com/payment/api/paymentAPI.php', $arr);
-        //$response = $request->send();
         return $response;
     }
 }
