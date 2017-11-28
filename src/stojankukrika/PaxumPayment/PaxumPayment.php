@@ -1647,7 +1647,7 @@ class PaxumPayment
     protected function process($req)
     {
         $request = new Client();
-        $request->post('https://www.paxum.com/payment/api/paymentAPI.php', [], $req, []);
+        $request->post('https://www.paxum.com/payment/api/paymentAPI.php', $req);
         $response = $request->send();
         return $response;
     }
