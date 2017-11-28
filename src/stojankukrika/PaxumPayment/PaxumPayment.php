@@ -330,7 +330,8 @@ class PaxumPayment
         echo $res;
 	}
 
-	public function transferFundsBetweenAccounts($fromAccount, $toAccount, $amount, $currency, $subscriptionFrequency = null, $subscriptionEndDate = null, $subscriptionUserCancel = null, $subscriptionTransactions  = null)
+	public function transferFundsBetweenAccounts($fromAccount, $toAccount, $amount, $currency, $subscriptionFrequency = null,
+        $subscriptionEndDate = null, $subscriptionUserCancel = null, $subscriptionTransactions  = null)
 	{
 		$key = md5(sprintf("%s%s%s%s%s%s%s%s%s",
 			$this->encryptedPassword,
@@ -1162,12 +1163,176 @@ class PaxumPayment
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
 		echo $res;
 	}
+
+    public function authorize($merchantAccountId, $amount, $currency, $orderNumber, $cardNumber, $cardExpiryMonth, $cardExpiryYear, $cardVerificationNumber, $cardType,
+        $billingFirstName, $billingLastName, $billingMiddleName, $billingIdn, $billingCountry, $billingState, $billingCity, $billingAddress, $billingZip, $billingPhone, $billingEmail,
+        $billingCompanyName, $billingCompanyRegistrationNumber, $billingCompanyTaxNumber, $billingCompanyBankName, $billingCompanyBankAccount,
+        $shippingFirstName, $shippingLastName, $shippingMiddleName, $shippingCompanyName, $shippingCountry, $shippingState, $shippingCity, $shippingAddress, $shippingZip, $shippingPhone)
+    {
+        $key = md5(sprintf("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
+            $this->encryptedPassword, $merchantAccountId,
+			$amount, $currency, $orderNumber, $cardNumber, $cardExpiryMonth, $cardExpiryYear, $cardVerificationNumber, $cardType,
+			$billingFirstName, $billingLastName, $billingMiddleName, $billingIdn, $billingCountry, $billingState, $billingCity, $billingAddress, $billingZip, $billingPhone, $billingEmail,
+			$billingCompanyName, $billingCompanyRegistrationNumber, $billingCompanyTaxNumber, $billingCompanyBankName, $billingCompanyBankAccount,
+			$shippingFirstName, $shippingLastName, $shippingMiddleName, $shippingCompanyName, $shippingCountry, $shippingState, $shippingCity, $shippingAddress, $shippingZip, $shippingPhone
+		));
+
+		// Prepare the request
+
+		$req  = sprintf("method=%s", urlencode("authorize"));
+		$req .= sprintf("&fromEmail=%s", urlencode($this->fromEmail));
+		$req .= sprintf("&merchantAccountId=%s", urlencode($merchantAccountId));
+		$req .= sprintf("&amount=%s", urlencode($amount));
+		$req .= sprintf("&currency=%s", urlencode($currency));
+		$req .= sprintf("&orderNumber=%s", urlencode($orderNumber));
+		$req .= sprintf("&cardNumber=%s", urlencode($cardNumber));
+		$req .= sprintf("&cardExpiryMonth=%s", urlencode($cardExpiryMonth));
+		$req .= sprintf("&cardExpiryYear=%s", urlencode($cardExpiryYear));
+		$req .= sprintf("&cardVerificationNumber=%s", urlencode($cardVerificationNumber));
+		$req .= sprintf("&billingFirstName=%s", urlencode($billingFirstName));
+		$req .= sprintf("&billingLastName=%s", urlencode($billingLastName));
+		$req .= sprintf("&billingMiddleName=%s", urlencode($billingMiddleName));
+		$req .= sprintf("&billingIdn=%s", urlencode($billingIdn));
+		$req .= sprintf("&billingCountry=%s", urlencode($billingCountry));
+		$req .= sprintf("&billingState=%s", urlencode($billingState));
+		$req .= sprintf("&billingCity=%s", urlencode($billingCity));
+		$req .= sprintf("&billingAddress=%s", urlencode($billingAddress));
+		$req .= sprintf("&billingZip=%s", urlencode($billingZip));
+		$req .= sprintf("&billingPhone=%s", urlencode($billingPhone));
+		$req .= sprintf("&billingEmail=%s", urlencode($billingEmail));
+
+		($billingCompanyName != null) ? $req .= sprintf("&billingCompanyName=%s", urlencode($billingCompanyName)) : "";
+		($billingCompanyRegistrationNumber != null) ? $req .= sprintf("&billingCompanyRegistrationNumber=%s", urlencode($billingCompanyRegistrationNumber)) : "";
+		($billingCompanyTaxNumber != null) ? $req .= sprintf("&billingCompanyTaxNumber=%s", urlencode($billingCompanyTaxNumber)) : "";
+		($billingCompanyBankName != null) ? $req .= sprintf("&billingCompanyBankName=%s", urlencode($billingCompanyBankName)) : "";
+		($billingCompanyBankAccount != null) ? $req .= sprintf("&billingCompanyBankAccount=%s", urlencode($billingCompanyBankAccount)) : "";
+		($shippingFirstName != null) ? $req .= sprintf("&shippingFirstName=%s", urlencode($shippingFirstName)) : "";
+		($shippingLastName != null) ? $req .= sprintf("&shippingLastName=%s", urlencode($shippingLastName)) : "";
+		($shippingMiddleName != null) ? $req .= sprintf("&shippingMiddleName=%s", urlencode($shippingMiddleName)) : "";
+		($shippingCompanyName != null) ? $req .= sprintf("&shippingCompanyName=%s", urlencode($shippingCompanyName)) : "";
+		($shippingCountry != null) ? $req .= sprintf("&shippingCountry=%s", urlencode($shippingCountry)) : "";
+		($shippingState != null) ? $req .= sprintf("&shippingState=%s", urlencode($shippingState)) : "";
+		($shippingCity != null) ? $req .= sprintf("&shippingCity=%s", urlencode($shippingCity)) : "";
+		($shippingAddress != null) ? $req .= sprintf("&shippingAddress=%s", urlencode($shippingAddress)) : "";
+		($shippingZip != null) ? $req .= sprintf("&shippingZip=%s", urlencode($shippingZip)) : "";
+		($shippingPhone != null) ? $req .= sprintf("&shippingPhone=%s", urlencode($shippingPhone)) : "";
+
+		$req .= sprintf("&key=%s", urlencode($key));
+
+		$res = $this->process($req);
+
+		// TODO: Parse the response from server and return error code
+        // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
+	}
+
+    public function settle($merchantAccountId, $transactionId, $orderNumber, $shippingCompany, $shippingAwb)
+    {
+        $key = md5(sprintf("%s%s%s%s%s%s",
+            $this->encryptedPassword,
+            $merchantAccountId,
+            $transactionId,
+            $orderNumber,
+            $shippingCompany,
+            $shippingAwb
+        ));
+
+        $req  = sprintf("method=%s", urlencode("settle"));
+        $req .= sprintf("&fromEmail=%s", urlencode($this->fromEmail));
+        $req .= sprintf("&merchantAccountId=%s", urlencode($merchantAccountId));
+        $req .= sprintf("&transactionId=%s", urlencode($transactionId));
+        $req .= sprintf("&orderNumber=%s", urlencode($orderNumber));
+        $req .= sprintf("&shippingCompany=%s", urlencode($shippingCompany));
+        $req .= sprintf("&shippingAwb=%s", urlencode($shippingAwb));
+        $req .= sprintf("&key=%s", urlencode($key));
+
+        $res = $this->process($req);
+
+        // TODO: Parse the response from server and return error code
+        // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
+    }
+
+    public function void($merchantAccountId, $transactionId, $orderNumber)
+    {
+        $key = md5(sprintf("%s%s%s%s",
+            $this->encryptedPassword,
+            $merchantAccountId,
+            $transactionId,
+            $orderNumber
+        ));
+
+        $req  = sprintf("method=%s", urlencode("void"));
+        $req .= sprintf("&fromEmail=%s", urlencode($this->fromEmail));
+        $req .= sprintf("&merchantAccountId=%s", urlencode($merchantAccountId));
+        $req .= sprintf("&transactionId=%s", urlencode($transactionId));
+        $req .= sprintf("&orderNumber=%s", urlencode($orderNumber));
+        $req .= sprintf("&key=%s", urlencode($key));
+
+        $res = $this->process($req);
+
+        // TODO: Parse the response from server and return error code
+        printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+    }
+
+    public function credit($merchantAccountId, $transactionId, $orderNumber, $amount)
+    {
+        $key = md5(sprintf("%s%s%s%s%s",
+            $this->encryptedPassword,
+            $merchantAccountId,
+            $transactionId,
+            $orderNumber,
+            $amount
+        ));
+
+        $req  = sprintf("method=%s", urlencode("credit"));
+        $req .= sprintf("&fromEmail=%s", urlencode($this->fromEmail));
+        $req .= sprintf("&merchantAccountId=%s", urlencode($merchantAccountId));
+        $req .= sprintf("&transactionId=%s", urlencode($transactionId));
+        $req .= sprintf("&orderNumber=%s", urlencode($orderNumber));
+        $req .= sprintf("&amount=%s", urlencode($amount));
+        $req .= sprintf("&key=%s", urlencode($key));
+
+        $res = $this->process($req);
+
+        // TODO: Parse the response from server and return error code
+        // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
+    }
+
+    public function query($merchantAccountId, $transactionId, $orderNumber, $pageSize, $pageNumber)
+    {
+        $key = md5(sprintf("%s%s%s%s%s%s",
+            $this->encryptedPassword,
+            $merchantAccountId,
+            $transactionId,
+            $orderNumber,
+            $pageSize,
+            $pageNumber
+        ));
+
+        $req  = sprintf("method=%s", urlencode("query"));
+        $req .= sprintf("&fromEmail=%s", urlencode($this->fromEmail));
+        $req .= sprintf("&merchantAccountId=%s", urlencode($merchantAccountId));
+        $req .= sprintf("&transactionId=%s", urlencode($transactionId));
+        $req .= sprintf("&orderNumber=%s", urlencode($orderNumber));
+        $req .= sprintf("&pageSize=%s", urlencode($pageSize));
+        $req .= sprintf("&pageNumber=%s", urlencode($pageNumber));
+        $req .= sprintf("&key=%s", urlencode($key));
+
+        $res = $this->process($req);
+
+        // TODO: Parse the response from server and return error code
+        // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        echo $res;
+    }
+
 	/**
 	 * Process the HTTP/HTTPS request
 	 *
      * @param string $req the client request
 	 *
-	 * @return server response
+	 * @return string server response
 	 */
 	protected function process($req)
 	{

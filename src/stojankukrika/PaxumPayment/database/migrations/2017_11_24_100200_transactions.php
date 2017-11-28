@@ -14,7 +14,11 @@ class Transactions extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamp('created_at');
+            $table->string('method');
+            $table->json('params')->nullable()->default(null);
+            $table->json('response')->nullable()->default(null);
+            $table->timestamp('send_request_at');
+            $table->timestamp('get_response_at');
         });
     }
 
