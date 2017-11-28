@@ -11,7 +11,8 @@
   ],
   "require": {
     "illuminate/support": "~5.0",
-    "doctrine/dbal": "*"
+    "doctrine/dbal": "*",
+    "nesbot/carbon": "~1.22"
   },
   "autoload": {
     "psr-4": {

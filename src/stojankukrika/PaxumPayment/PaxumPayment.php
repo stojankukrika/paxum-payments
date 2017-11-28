@@ -2,6 +2,9 @@
 
 namespace stojankukrika\PaxumPayment;
 
+use Carbon\Carbon;
+use DB;
+
 /**
  * The PaxumPayment class.
  *
@@ -42,13 +45,27 @@ class PaxumPayment
 		$this->sandbox = config('paxum.sandbox');
 	}
 
+	private function add_transaction($method, $id = 0, $params = "" , $response = ""){
+	    if($id == 0) {
+            $id = DB::table('transactions')->insertGetId([
+                'method' => $method,
+                'params' => $params,
+                'send_request_at' => Carbon::now(),
+            ]);
+        }else{
+            DB::table('transactions')
+                ->where('id', $id)
+                ->update(['response' => $response,'get_response_at' => Carbon::now()]);
+        }
+        return $id;
+    }
+
 	public function login()
 	{
 		$key = md5(sprintf("%s%s",
 			$this->encryptedPassword,
 			$this->fromEmail)
 		);
-
 		// Prepare the request
 
 		$req  = sprintf("method=%s", urlencode("login"));
@@ -60,17 +77,20 @@ class PaxumPayment
             $req .= sprintf("&sandbox=ON");
             $req .= sprintf("&return=%s", urlencode("51"));
         }
+
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"400\" rows=\"100\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('login', $id, "", $res);
         echo $res;
 	}
 
 	public function balanceInquiry($accountId = null)
 	{
 		$key = md5(sprintf("%s%s", $this->encryptedPassword, $accountId));
-
 		// Prepare the request
 
 		$req  = sprintf("method=%s", urlencode("balanceInquiry"));
@@ -84,10 +104,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('balanceInquiry', $id, "", $res);
         echo $res;
 
 	}
@@ -108,10 +131,14 @@ class PaxumPayment
             $req .= sprintf("&sandbox=ON");
             $req .= sprintf("&return=%s", urlencode("51"));
         }
+
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('cardInquiry', $id, "", $res);
         echo $res;
 	}
 
@@ -132,10 +159,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('bankAccountInquiry', $id, "", $res);
         echo $res;
 	}
 
@@ -156,10 +186,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('addressInquiry', $id, "", $res);
         echo $res;
 	}
 
@@ -185,10 +218,14 @@ class PaxumPayment
             $req .= sprintf("&sandbox=ON");
             $req .= sprintf("&return=%s", urlencode("51"));
         }
+
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('identityVerificationInquiry', $id, "", $res);
         echo $res;
 	}
 
@@ -208,10 +245,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('currencyInquiry', $id, "", $res);
         echo $res;
 	}
 
@@ -231,10 +271,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('emailInquiry', $id, "", $res);
         echo $res;
 	}
 
@@ -253,10 +296,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('newsInquiry', $id, "", $res);
         echo $res;
 	}
 
@@ -288,10 +334,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('addFundsFromCard', $id, "", $res);
         echo $res;
 	}
 
@@ -323,10 +372,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('addFundsFromBankAccount', $id, "", $res);
         echo $res;
 	}
 
@@ -365,10 +417,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('transferFundsBetweenAccounts', $id, "", $res);
         echo $res;
 	}
 
@@ -421,10 +476,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('transferFunds', $id, "", $res);
         echo $res;
 	}
 
@@ -446,10 +504,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('massTransferFunds', $id, "", $res);
         echo $res;
 	}
 
@@ -480,10 +541,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('withdrawFundsToCard', $id, "", $res);
         echo $res;
 	}
 
@@ -515,10 +579,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('withdrawFundsToBankAccount', $id, "", $res);
         echo $res;
 	}
 
@@ -538,10 +605,14 @@ class PaxumPayment
             $req .= sprintf("&sandbox=ON");
             $req .= sprintf("&return=%s", urlencode("51"));
         }
+
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('refundTransaction', $id, "", $res);
         echo $res;
 	}
 
@@ -566,10 +637,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('requestMoney', $id, "", $res);
         echo $res;
 	}
 
@@ -590,10 +664,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('subscriptionList', $id, "", $res);
         echo $res;
 	}
 
@@ -614,10 +691,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('cancelSubscription', $id, "", $res);
         echo $res;
 
 	}
@@ -657,10 +737,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('transactionHistory', $id, "", $res);
         echo $res;
 	}
 
@@ -711,10 +794,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('identityVerification', $id, "", $res);
         echo $res;
 	}
 
@@ -755,10 +841,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('addCard', $id, "", $res);
         echo $res;
 	}
 
@@ -779,10 +868,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('setPrimaryCard', $id, "", $res);
         echo $res;
 	}
 
@@ -803,10 +895,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('deleteCard', $id, "", $res);
         echo $res;
 	}
 
@@ -832,10 +927,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('verifyCardRequest', $id, "", $res);
         echo $res;
 	}
 
@@ -861,10 +959,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('verifyCardConfirmation', $id, "", $res);
         echo $res;
 	}
 
@@ -921,10 +1022,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('addBankAccount', $id, "", $res);
         echo $res;
 	}
 
@@ -945,10 +1049,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('setPrimaryBankAccount', $id, "", $res);
         echo $res;
 	}
 
@@ -969,10 +1076,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('deleteBankAccount', $id, "", $res);
         echo $res;
 	}
 
@@ -1008,10 +1118,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('addAddress', $id, "", $res);
         echo $res;
 	}
 
@@ -1032,10 +1145,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('deleteAddress', $id, "", $res);
         echo $res;
 	}
 
@@ -1096,10 +1212,13 @@ class PaxumPayment
             $req .= sprintf("&return=%s", urlencode("51"));
         }
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('createAccount', $id, "", $res);
         echo $res;
 	}
 
@@ -1130,10 +1249,13 @@ class PaxumPayment
 
 		$req .= sprintf("&key=%s", urlencode($key));
 
+        $id = $this->add_transaction('login', 0, $req);
+
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('uploadDocument', $id, "", $res);
 		echo $res;
 	}
 
@@ -1154,13 +1276,15 @@ class PaxumPayment
 		$req .= sprintf("&billingAddress=%s", urlencode($billingAddress));
 		$req .= sprintf("&shippingMethod=%s", urlencode($shippingMethod));
 		$req .= sprintf("&fromAccount=%s", urlencode($fromAccount));
-
 		$req .= sprintf("&key=%s", urlencode($key));
+
+        $id = $this->add_transaction('login', 0, $req);
 
 		$res = $this->process($req);
 
 		// TODO: Parse the response from server and return error code
 		// printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('requestCard', $id, "", $res);
 		echo $res;
 	}
 
@@ -1200,6 +1324,7 @@ class PaxumPayment
 		$req .= sprintf("&billingZip=%s", urlencode($billingZip));
 		$req .= sprintf("&billingPhone=%s", urlencode($billingPhone));
 		$req .= sprintf("&billingEmail=%s", urlencode($billingEmail));
+        $id = $this->add_transaction('login', 0, $req);
 
 		($billingCompanyName != null) ? $req .= sprintf("&billingCompanyName=%s", urlencode($billingCompanyName)) : "";
 		($billingCompanyRegistrationNumber != null) ? $req .= sprintf("&billingCompanyRegistrationNumber=%s", urlencode($billingCompanyRegistrationNumber)) : "";
@@ -1223,6 +1348,7 @@ class PaxumPayment
 
 		// TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('authorize', $id, "", $res);
         echo $res;
 	}
 
@@ -1245,11 +1371,13 @@ class PaxumPayment
         $req .= sprintf("&shippingCompany=%s", urlencode($shippingCompany));
         $req .= sprintf("&shippingAwb=%s", urlencode($shippingAwb));
         $req .= sprintf("&key=%s", urlencode($key));
+        $id = $this->add_transaction('login', 0, $req);
 
         $res = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('settle', $id, "", $res);
         echo $res;
     }
 
@@ -1268,11 +1396,14 @@ class PaxumPayment
         $req .= sprintf("&transactionId=%s", urlencode($transactionId));
         $req .= sprintf("&orderNumber=%s", urlencode($orderNumber));
         $req .= sprintf("&key=%s", urlencode($key));
+        $id = $this->add_transaction('login', 0, $req);
 
         $res = $this->process($req);
 
         // TODO: Parse the response from server and return error code
-        printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('void', $id, "", $res);
+        echo $res;
     }
 
     public function credit($merchantAccountId, $transactionId, $orderNumber, $amount)
@@ -1292,11 +1423,12 @@ class PaxumPayment
         $req .= sprintf("&orderNumber=%s", urlencode($orderNumber));
         $req .= sprintf("&amount=%s", urlencode($amount));
         $req .= sprintf("&key=%s", urlencode($key));
+        $id = $this->add_transaction('login', 0, $req);
 
         $res = $this->process($req);
 
         // TODO: Parse the response from server and return error code
-        // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('credit', $id, "", $res);
         echo $res;
     }
 
@@ -1320,10 +1452,12 @@ class PaxumPayment
         $req .= sprintf("&pageNumber=%s", urlencode($pageNumber));
         $req .= sprintf("&key=%s", urlencode($key));
 
+        $id = $this->add_transaction('login', 0, $req);
+
         $res = $this->process($req);
 
         // TODO: Parse the response from server and return error code
-        // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
+        $this->add_transaction('query', $id, "", $res);
         echo $res;
     }
 
