@@ -17,6 +17,7 @@ class Transactions extends Migration
             $table->string('method');
             $table->text('params')->nullable()->default(null);
             $table->text('response')->nullable()->default(null);
+            $table->string('response_code')->nullable()->default(null);
             $table->timestamp('send_request_at');
             $table->timestamp('get_response_at')->nullable()->default(null);;
         });

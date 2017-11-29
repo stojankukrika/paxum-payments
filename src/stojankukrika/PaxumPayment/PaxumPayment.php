@@ -54,20 +54,32 @@ class PaxumPayment
         $this->sandbox = config('paxum.sandbox');
     }
 
-    private function add_transaction($method, $id = 0, $params = "", $response = "")
+    private function add_transaction($method, $id = 0, $params = "", $response = "", $response_code = '')
     {
-        if ($id == 0) {
-            $id = DB::table('transactions')->insertGetId([
-                'method' => $method,
-                'params' => $params,
-                'send_request_at' => Carbon::now(),
-            ]);
+        $check = DB::select('SELECT COUNT(*) AS `exists`
+            FROM information_schema.tables
+            WHERE table_name IN ("transactions")
+            AND table_schema = database()');
+        if (isset($check[0]) && $check[0]->exists) {
+            if ($id == 0) {
+                $id = DB::table('transactions')->insertGetId([
+                    'method' => $method,
+                    'params' => $params,
+                    'send_request_at' => Carbon::now(),
+                ]);
+            } else {
+                DB::table('transactions')
+                    ->where('id', $id)
+                    ->update([
+                        'response' => $response,
+                        'response_code' => $response_code,
+                        'get_response_at' => Carbon::now()
+                    ]);
+            }
+            return $id;
         } else {
-            DB::table('transactions')
-                ->where('id', $id)
-                ->update(['response' => $response, 'get_response_at' => Carbon::now()]);
+            return 0;
         }
-        return $id;
     }
 
     public function login()
@@ -90,12 +102,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('login', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"400\" rows=\"100\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('login', $id, "", $res);
-        echo $res;
+        $this->add_transaction('login', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function balanceInquiry($accountId = null)
@@ -116,12 +128,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('balanceInquiry', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('balanceInquiry', $id, "", $res);
-        echo $res;
+        $this->add_transaction('balanceInquiry', $id, "", $response, $response_code);
+        return $response;
 
     }
 
@@ -144,12 +156,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('cardInquiry', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('cardInquiry', $id, "", $res);
-        echo $res;
+        $this->add_transaction('cardInquiry', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function bankAccountInquiry($bankAccountId = null)
@@ -171,12 +183,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('bankAccountInquiry', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('bankAccountInquiry', $id, "", $res);
-        echo $res;
+        $this->add_transaction('bankAccountInquiry', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function addressInquiry($addressId = null)
@@ -198,12 +210,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('addressInquiry', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('addressInquiry', $id, "", $res);
-        echo $res;
+        $this->add_transaction('addressInquiry', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function identityVerificationInquiry($identityVerificationId = null, $pageSize = null, $pageNumber = null)
@@ -232,12 +244,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('identityVerificationInquiry', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('identityVerificationInquiry', $id, "", $res);
-        echo $res;
+        $this->add_transaction('identityVerificationInquiry', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function currencyInquiry($status = null)
@@ -258,12 +270,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('currencyInquiry', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('currencyInquiry', $id, "", $res);
-        echo $res;
+        $this->add_transaction('currencyInquiry', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function emailInquiry()
@@ -284,12 +296,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('emailInquiry', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('emailInquiry', $id, "", $res);
-        echo $res;
+        $this->add_transaction('emailInquiry', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function newsInquiry()
@@ -309,12 +321,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('newsInquiry', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('newsInquiry', $id, "", $res);
-        echo $res;
+        $this->add_transaction('newsInquiry', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function addFundsFromCard($fromCard, $toAccountId, $amount, $currency, $cardVerificationNumber)
@@ -347,12 +359,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('addFundsFromCard', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('addFundsFromCard', $id, "", $res);
-        echo $res;
+        $this->add_transaction('addFundsFromCard', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function addFundsFromBankAccount($bankAccountId, $toAccountId, $amount, $currency, $transferType)
@@ -385,12 +397,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('addFundsFromBankAccount', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('addFundsFromBankAccount', $id, "", $res);
-        echo $res;
+        $this->add_transaction('addFundsFromBankAccount', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function transferFundsBetweenAccounts(
@@ -441,12 +453,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('transferFundsBetweenAccounts', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('transferFundsBetweenAccounts', $id, "", $res);
-        echo $res;
+        $this->add_transaction('transferFundsBetweenAccounts', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function transferFunds(
@@ -517,12 +529,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('transferFunds', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('transferFunds', $id, "", $res);
-        echo $res;
+        $this->add_transaction('transferFunds', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function massTransferFunds($data, $fromAccountId = null)
@@ -545,12 +557,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('massTransferFunds', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('massTransferFunds', $id, "", $res);
-        echo $res;
+        $this->add_transaction('massTransferFunds', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function withdrawFundsToCard($fromAccount, $toCard, $amount, $currency)
@@ -582,12 +594,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('withdrawFundsToCard', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('withdrawFundsToCard', $id, "", $res);
-        echo $res;
+        $this->add_transaction('withdrawFundsToCard', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function withdrawFundsToBankAccount($fromAccount, $toBankAccount, $amount, $currency, $transferType)
@@ -620,12 +632,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('withdrawFundsToBankAccount', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('withdrawFundsToBankAccount', $id, "", $res);
-        echo $res;
+        $this->add_transaction('withdrawFundsToBankAccount', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function refundTransaction($transId)
@@ -647,12 +659,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('refundTransaction', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('refundTransaction', $id, "", $res);
-        echo $res;
+        $this->add_transaction('refundTransaction', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function requestMoney($toEmail, $amount, $currency, $toAccount = null, $transactionCategory = null)
@@ -680,12 +692,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('requestMoney', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('requestMoney', $id, "", $res);
-        echo $res;
+        $this->add_transaction('requestMoney', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function subscriptionList($pageSize = null, $pageNumber = null)
@@ -707,12 +719,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('subscriptionList', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('subscriptionList', $id, "", $res);
-        echo $res;
+        $this->add_transaction('subscriptionList', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function cancelSubscription($subscriptionId)
@@ -734,12 +746,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('cancelSubscription', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('cancelSubscription', $id, "", $res);
-        echo $res;
+        $this->add_transaction('cancelSubscription', $id, "", $response, $response_code);
+        return $response;
 
     }
 
@@ -783,12 +795,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('transactionHistory', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('transactionHistory', $id, "", $res);
-        echo $res;
+        $this->add_transaction('transactionHistory', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function identityVerification(
@@ -854,12 +866,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('identityVerification', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('identityVerification', $id, "", $res);
-        echo $res;
+        $this->add_transaction('identityVerification', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function addCard(
@@ -911,12 +923,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('addCard', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('addCard', $id, "", $res);
-        echo $res;
+        $this->add_transaction('addCard', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function setPrimaryCard($cardId)
@@ -938,12 +950,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('setPrimaryCard', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('setPrimaryCard', $id, "", $res);
-        echo $res;
+        $this->add_transaction('setPrimaryCard', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function deleteCard($cardId)
@@ -965,12 +977,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('deleteCard', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('deleteCard', $id, "", $res);
-        echo $res;
+        $this->add_transaction('deleteCard', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function verifyCardRequest($fromCard, $cardVerificationNumber)
@@ -997,12 +1009,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('verifyCardRequest', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('verifyCardRequest', $id, "", $res);
-        echo $res;
+        $this->add_transaction('verifyCardRequest', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function verifyCardConfirmation($fromCard, $amount)
@@ -1029,12 +1041,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('verifyCardConfirmation', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('verifyCardConfirmation', $id, "", $res);
-        echo $res;
+        $this->add_transaction('verifyCardConfirmation', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function addBankAccount(
@@ -1115,12 +1127,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('addBankAccount', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('addBankAccount', $id, "", $res);
-        echo $res;
+        $this->add_transaction('addBankAccount', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function setPrimaryBankAccount($bankAccountId)
@@ -1142,12 +1154,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('setPrimaryBankAccount', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('setPrimaryBankAccount', $id, "", $res);
-        echo $res;
+        $this->add_transaction('setPrimaryBankAccount', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function deleteBankAccount($bankAccountId)
@@ -1169,12 +1181,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('deleteBankAccount', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('deleteBankAccount', $id, "", $res);
-        echo $res;
+        $this->add_transaction('deleteBankAccount', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function addAddress(
@@ -1223,12 +1235,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('addAddress', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('addAddress', $id, "", $res);
-        echo $res;
+        $this->add_transaction('addAddress', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function deleteAddress($addressId)
@@ -1250,12 +1262,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('deleteAddress', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('deleteAddress', $id, "", $res);
-        echo $res;
+        $this->add_transaction('deleteAddress', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function createAccount(
@@ -1344,12 +1356,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('createAccount', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('createAccount', $id, "", $res);
-        echo $res;
+        $this->add_transaction('createAccount', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function uploadDocument(
@@ -1395,12 +1407,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('uploadDocument', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('uploadDocument', $id, "", $res);
-        echo $res;
+        $this->add_transaction('uploadDocument', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function requestCard($toEmail, $type, $currency, $nameOnCard, $billingAddress, $shippingMethod, $fromAccount)
@@ -1424,12 +1436,12 @@ class PaxumPayment
 
         $id = $this->add_transaction('requestCard', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('requestCard', $id, "", $res);
-        echo $res;
+        $this->add_transaction('requestCard', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function authorize(
@@ -1529,12 +1541,12 @@ class PaxumPayment
 
         $req .= sprintf("&key=%s", urlencode($key));
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('authorize', $id, "", $res);
-        echo $res;
+        $this->add_transaction('authorize', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function settle($merchantAccountId, $transactionId, $orderNumber, $shippingCompany, $shippingAwb)
@@ -1558,12 +1570,12 @@ class PaxumPayment
         $req .= sprintf("&key=%s", urlencode($key));
         $id = $this->add_transaction('settle', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('settle', $id, "", $res);
-        echo $res;
+        $this->add_transaction('settle', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function void($merchantAccountId, $transactionId, $orderNumber)
@@ -1583,12 +1595,12 @@ class PaxumPayment
         $req .= sprintf("&key=%s", urlencode($key));
         $id = $this->add_transaction('void', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
-        $this->add_transaction('void', $id, "", $res);
-        echo $res;
+        $this->add_transaction('void', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function credit($merchantAccountId, $transactionId, $orderNumber, $amount)
@@ -1610,11 +1622,11 @@ class PaxumPayment
         $req .= sprintf("&key=%s", urlencode($key));
         $id = $this->add_transaction('credit', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
-        $this->add_transaction('credit', $id, "", $res);
-        echo $res;
+        $this->add_transaction('credit', $id, "", $response, $response_code);
+        return $response;
     }
 
     public function query($merchantAccountId, $transactionId, $orderNumber, $pageSize, $pageNumber)
@@ -1639,22 +1651,24 @@ class PaxumPayment
 
         $id = $this->add_transaction('query', 0, $req);
 
-        $res = $this->process($req);
+        list($response, $response_code) = $this->process($req);
 
         // TODO: Parse the response from server and return error code
-        $this->add_transaction('query', $id, "", $res);
-        echo $res;
+        $this->add_transaction('query', $id, "", $response, $response_code);
+        return $response;
     }
 
     /**
      * Process the HTTP/HTTPS request
      *
      * @param string $req the client request
-     *
-     * @return string server response
+     * @return array - response from server with response code
+     * @throws PaxumPaymentException
      */
     protected function process($req)
     {
+//          Original Paxum code for send request
+//
 //        $header  = "POST /payment/api/paymentAPI.php HTTP/1.0\r\n";
 //        $header .= "Host: www.prioripay.com\r\n";
 //        $header .= "Accept: */*\r\n";
@@ -1706,7 +1720,8 @@ class PaxumPayment
 
         $response = $client->post($this->apiURL, null, $data);
         if ($response->getStatusCode() == 200) {
-            return $response->getBody()->getContents();
+            $xml = simplexml_load_string(trim($response->getBody()));
+            return [trim($response->getBody()), isset($xml->ResponseCode) ? $xml->ResponseCode : 0];
         } else {
             throw new PaxumPaymentException($response->getReasonPhrase(), $response->getStatusCode());
         }
