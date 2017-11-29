@@ -3,20 +3,17 @@
 namespace stojankukrika\PaxumPayment;
 
 use Carbon\Carbon;
-use DOMDocument;
 use GuzzleHttp\Client;
 use DB;
-use SimpleXMLElement;
 use stojankukrika\PaxumPayment\Exception\PaxumPaymentException;
 
 /**
- * The PaxumPayment class.
+ * Paxum API main class
  *
- * @package  payment.api
- * @since    Payment 1.0
- * @version  1.1
- * @category Payment
+ * @package stojankukrika\PaxumPayment
+ * @author Stojan Kukrika <stojankukrika@gmail.com>
  */
+
 class PaxumPayment
 {
 
@@ -104,7 +101,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"400\" rows=\"100\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('login', $id, "", $response, $response_code);
         return $response;
@@ -130,7 +126,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('balanceInquiry', $id, "", $response, $response_code);
         return $response;
@@ -158,7 +153,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('cardInquiry', $id, "", $response, $response_code);
         return $response;
@@ -185,7 +179,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('bankAccountInquiry', $id, "", $response, $response_code);
         return $response;
@@ -212,7 +205,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('addressInquiry', $id, "", $response, $response_code);
         return $response;
@@ -246,7 +238,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('identityVerificationInquiry', $id, "", $response, $response_code);
         return $response;
@@ -272,7 +263,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('currencyInquiry', $id, "", $response, $response_code);
         return $response;
@@ -298,7 +288,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('emailInquiry', $id, "", $response, $response_code);
         return $response;
@@ -323,7 +312,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('newsInquiry', $id, "", $response, $response_code);
         return $response;
@@ -361,7 +349,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('addFundsFromCard', $id, "", $response, $response_code);
         return $response;
@@ -399,7 +386,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('addFundsFromBankAccount', $id, "", $response, $response_code);
         return $response;
@@ -455,7 +441,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('transferFundsBetweenAccounts', $id, "", $response, $response_code);
         return $response;
@@ -531,7 +516,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('transferFunds', $id, "", $response, $response_code);
         return $response;
@@ -559,7 +543,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('massTransferFunds', $id, "", $response, $response_code);
         return $response;
@@ -596,7 +579,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('withdrawFundsToCard', $id, "", $response, $response_code);
         return $response;
@@ -634,7 +616,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('withdrawFundsToBankAccount', $id, "", $response, $response_code);
         return $response;
@@ -661,7 +642,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('refundTransaction', $id, "", $response, $response_code);
         return $response;
@@ -694,7 +674,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('requestMoney', $id, "", $response, $response_code);
         return $response;
@@ -721,7 +700,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('subscriptionList', $id, "", $response, $response_code);
         return $response;
@@ -748,7 +726,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('cancelSubscription', $id, "", $response, $response_code);
         return $response;
@@ -797,7 +774,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('transactionHistory', $id, "", $response, $response_code);
         return $response;
@@ -868,7 +844,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('identityVerification', $id, "", $response, $response_code);
         return $response;
@@ -925,7 +900,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('addCard', $id, "", $response, $response_code);
         return $response;
@@ -952,7 +926,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('setPrimaryCard', $id, "", $response, $response_code);
         return $response;
@@ -979,7 +952,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('deleteCard', $id, "", $response, $response_code);
         return $response;
@@ -1011,7 +983,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('verifyCardRequest', $id, "", $response, $response_code);
         return $response;
@@ -1043,7 +1014,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('verifyCardConfirmation', $id, "", $response, $response_code);
         return $response;
@@ -1129,7 +1099,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('addBankAccount', $id, "", $response, $response_code);
         return $response;
@@ -1156,7 +1125,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('setPrimaryBankAccount', $id, "", $response, $response_code);
         return $response;
@@ -1183,7 +1151,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('deleteBankAccount', $id, "", $response, $response_code);
         return $response;
@@ -1237,7 +1204,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('addAddress', $id, "", $response, $response_code);
         return $response;
@@ -1264,7 +1230,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('deleteAddress', $id, "", $response, $response_code);
         return $response;
@@ -1358,7 +1323,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('createAccount', $id, "", $response, $response_code);
         return $response;
@@ -1409,7 +1373,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('uploadDocument', $id, "", $response, $response_code);
         return $response;
@@ -1438,7 +1401,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('requestCard', $id, "", $response, $response_code);
         return $response;
@@ -1543,7 +1505,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('authorize', $id, "", $response, $response_code);
         return $response;
@@ -1572,7 +1533,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('settle', $id, "", $response, $response_code);
         return $response;
@@ -1597,7 +1557,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         // printf("<textarea cols=\"60\" rows=\"10\" wrap=\"off\">\n%s\n</textarea>\n", $res);
         $this->add_transaction('void', $id, "", $response, $response_code);
         return $response;
@@ -1624,7 +1583,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         $this->add_transaction('credit', $id, "", $response, $response_code);
         return $response;
     }
@@ -1653,7 +1611,6 @@ class PaxumPayment
 
         list($response, $response_code) = $this->process($req);
 
-        // TODO: Parse the response from server and return error code
         $this->add_transaction('query', $id, "", $response, $response_code);
         return $response;
     }

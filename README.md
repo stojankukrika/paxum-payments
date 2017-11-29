@@ -33,17 +33,17 @@ $ php artisan migrate
 ```
 
 #### Configuration
-```bash
-$ php artisan vendor:publish --provider=stojankukrika\PaxumPayment\PaxumPaymentServiceProvider
+
+Add in your .env file variables:
 ```
-Add in your .ev file variables:
-```
-- PAXUM_ACCOUNT_ID 
 - PAXUM_EMAIL 
 - PAXUM_SHARED_SECRET  
 - PAXUM_SANDBOX
 ```
 set it values from paxum.com and publish this provider using:
+```bash
+$ php artisan vendor:publish --provider=stojankukrika\PaxumPayment\PaxumPaymentServiceProvider
+```
 
 #### Important note
 Before testing Payment API Code Sample do not forget to do the following from Merchant Services >> API Settings:
@@ -63,12 +63,17 @@ $response = $paxum->transferFunds('email@example.com',50,'USD');
 Here you can find all function list and how to call each of them
 [Paxum apiFunctionList](https://www.paxum.com/payment-docs/page.php?name=apiFunctionList).
 
-
-
+All requests returns string xml which you can easy parse using:
+``
+$xml = simplexml_load_string($response);
+``
+Then you will get SimpleXMLElement which is Object and you can get his properties and work with them.
+ 
 
 Changelog
 ---
-- initial version
+- 2.0 - version with tracking response code and return string xml as response
+- 1.0 - initial version
 
 
 License
