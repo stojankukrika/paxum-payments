@@ -1,7 +1,7 @@
 Paxum payment package
 ==============================================================
 
-You can support me to this project and [make some donation]( paypal.me/stojankukrika).
+You can support me to this project and [make some donation]( https://paypal.me/stojankukrika).
 
 Installation
 ---
