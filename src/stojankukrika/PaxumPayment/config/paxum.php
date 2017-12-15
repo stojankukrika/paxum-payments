@@ -22,5 +22,5 @@ return [
 	|------------------------------------------------------------------------------------
 	|
 	*/
-    'sendbox'   => getenv('PAXUM_SANDBOX', false)
+    'sandbox'   => getenv('PAXUM_SANDBOX', false)
 ];

@@ -46,9 +46,13 @@ class PaxumPayment
      */
     public function __construct()
     {
-        $this->fromEmail = config('paxum.paxum_email');
         $this->encryptedPassword = config('paxum.paxum_shared_secret');
         $this->sandbox = config('paxum.sandbox');
+        if($this->sandbox){
+            $this->fromEmail = 'payer@domain.com';
+        }else{
+            $this->fromEmail = config('paxum.paxum_email');
+        }
     }
 
     private function add_transaction($method, $id = 0, $params = "", $response = "", $response_code = '')

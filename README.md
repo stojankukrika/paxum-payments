@@ -1,6 +1,8 @@
 Paxum payment package
 ==============================================================
 
+You can support me to this project and [make some donation]( https://paypal.me/stojankukrika).
+
 Installation
 ---
 You can install the package via composer:
