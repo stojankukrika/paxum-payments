@@ -74,6 +74,7 @@ Then you will get SimpleXMLElement which is Object and you can get his propertie
 
 Changelog
 ---
+- 2.1 - version who work with CURL
 - 2.0 - version with tracking response code and return string xml as response
 - 1.0 - initial version
 
