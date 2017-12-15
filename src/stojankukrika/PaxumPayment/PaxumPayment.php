@@ -3,7 +3,7 @@
 namespace stojankukrika\PaxumPayment;
 
 use Carbon\Carbon;
-use GuzzleHttp\Client;
+use Ixudra\Curl\Facades\Curl;
 use DB;
 use stojankukrika\PaxumPayment\Exception\PaxumPaymentException;
 
@@ -1672,16 +1672,20 @@ class PaxumPayment
 //        return $res;
 //
 //
-        $client = new Client();
         parse_str($req, $data);
 
-        $response = $client->post($this->apiURL, null, $data);
-        if ($response->getStatusCode() == 200) {
-            $xml = simplexml_load_string(trim($response->getBody()));
-            return [trim($response->getBody()), isset($xml->ResponseCode) ? $xml->ResponseCode : 0];
-        } else {
-            throw new PaxumPaymentException($response->getReasonPhrase(), $response->getStatusCode());
-        }
+        $response = Curl::to($this->apiURL)
+            ->withData( $data )
+            ->post();
+        dd($response);
+
+//        $response = $client->post($this->apiURL, null, $data);
+//        if ($response->getStatusCode() == 200) {
+//            $xml = simplexml_load_string(trim($response->getBody()));
+//            return [trim($response->getBody()), isset($xml->ResponseCode) ? $xml->ResponseCode : 0];
+//        } else {
+//            throw new PaxumPaymentException($response->getReasonPhrase(), $response->getStatusCode());
+//        }
     }
 }
 
