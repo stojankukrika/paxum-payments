@@ -13,7 +13,6 @@ use stojankukrika\PaxumPayment\Exception\PaxumPaymentException;
  * @package stojankukrika\PaxumPayment
  * @author Stojan Kukrika <stojankukrika@gmail.com>
  */
-
 class PaxumPayment
 {
 
@@ -48,9 +47,9 @@ class PaxumPayment
     {
         $this->encryptedPassword = config('paxum.paxum_shared_secret');
         $this->sandbox = config('paxum.sandbox');
-        if($this->sandbox){
+        if ($this->sandbox) {
             $this->fromEmail = 'payer@domain.com';
-        }else{
+        } else {
             $this->fromEmail = config('paxum.paxum_email');
         }
     }
@@ -98,7 +97,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('login', 0, $req);
@@ -123,7 +122,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('balanceInquiry', 0, $req);
@@ -150,7 +149,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('cardInquiry', 0, $req);
@@ -176,7 +175,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('bankAccountInquiry', 0, $req);
@@ -202,7 +201,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('addressInquiry', 0, $req);
@@ -235,7 +234,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('identityVerificationInquiry', 0, $req);
@@ -260,7 +259,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('currencyInquiry', 0, $req);
@@ -285,7 +284,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('emailInquiry', 0, $req);
@@ -309,7 +308,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('newsInquiry', 0, $req);
@@ -346,7 +345,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('addFundsFromCard', 0, $req);
@@ -383,7 +382,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('addFundsFromBankAccount', 0, $req);
@@ -438,7 +437,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('transferFundsBetweenAccounts', 0, $req);
@@ -513,7 +512,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('transferFunds', 0, $req);
@@ -540,7 +539,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('massTransferFunds', 0, $req);
@@ -576,7 +575,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('withdrawFundsToCard', 0, $req);
@@ -613,7 +612,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('withdrawFundsToBankAccount', 0, $req);
@@ -639,7 +638,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('refundTransaction', 0, $req);
@@ -671,7 +670,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('requestMoney', 0, $req);
@@ -697,7 +696,7 @@ class PaxumPayment
         //the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('subscriptionList', 0, $req);
@@ -723,7 +722,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('cancelSubscription', 0, $req);
@@ -771,7 +770,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('transactionHistory', 0, $req);
@@ -841,7 +840,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('identityVerification', 0, $req);
@@ -897,7 +896,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('addCard', 0, $req);
@@ -923,7 +922,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('setPrimaryCard', 0, $req);
@@ -949,7 +948,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('deleteCard', 0, $req);
@@ -980,7 +979,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('verifyCardRequest', 0, $req);
@@ -1011,7 +1010,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('verifyCardConfirmation', 0, $req);
@@ -1096,7 +1095,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('addBankAccount', 0, $req);
@@ -1122,7 +1121,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('setPrimaryBankAccount', 0, $req);
@@ -1148,7 +1147,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('deleteBankAccount', 0, $req);
@@ -1201,7 +1200,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('addAddress', 0, $req);
@@ -1227,7 +1226,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('deleteAddress', 0, $req);
@@ -1320,7 +1319,7 @@ class PaxumPayment
         // the following two lines are for testing only (in production they should be commented out)
         if ($this->sandbox) {
             $req .= sprintf("&sandbox=ON");
-            $req .= sprintf("&return=%s", urlencode("51"));
+            $req .= sprintf("&return=%s", urlencode("00"));
         }
 
         $id = $this->add_transaction('createAccount', 0, $req);
@@ -1676,20 +1675,14 @@ class PaxumPayment
 //        return $res;
 //
 //
-        parse_str($req, $data);
+//      parse_str($req, $data);
 
         $response = Curl::to($this->apiURL)
-            ->withData( $data )
+            ->withData($req)
             ->post();
-        dd($response);
+        $xml = simplexml_load_string(trim($response));
 
-//        $response = $client->post($this->apiURL, null, $data);
-//        if ($response->getStatusCode() == 200) {
-//            $xml = simplexml_load_string(trim($response->getBody()));
-//            return [trim($response->getBody()), isset($xml->ResponseCode) ? $xml->ResponseCode : 0];
-//        } else {
-//            throw new PaxumPaymentException($response->getReasonPhrase(), $response->getStatusCode());
-//        }
+        return [trim($response->getBody()), isset($xml->ResponseCode) ? $xml->ResponseCode : 0];
     }
 }
 
