@@ -1682,7 +1682,7 @@ class PaxumPayment
             ->post();
         $xml = simplexml_load_string(trim($response));
 
-        return [trim($response->getBody()), isset($xml->ResponseCode) ? $xml->ResponseCode : 0];
+        return [trim($response), isset($xml->ResponseCode) ? $xml->ResponseCode : 0];
     }
 }
 
